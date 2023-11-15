@@ -135,6 +135,7 @@ body {
 
 .slider-pagination .slider-page {
   background: #9c27b0b5;
+  pointer-events: none;
 }
 
 .hero-body {
