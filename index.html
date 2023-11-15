@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bridge-TTS: Text-to-Speech Synthesis with Schrodinger Bridge</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.ico">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Bridge-TTS: Text-to-Speech Synthesis with Schrodinger Bridge</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <p>Anonymous authors</p>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <div class="custom-image">
+            <img src="./static/images/Overview.jpg">
+          </div>
+          <div class="column"></div>
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              In text-to-speech (TTS) synthesis, diffusion models have achieved promising generation quality. However,
+              because of the pre-defined data-to-noise diffusion process, their prior distribution is restricted to a
+              noisy representation, which provides little information of the generation target.
+              In this work, we present a novel TTS system, Bridge-TTS, making the first attempt to substitute the noisy
+              Gaussian prior in established diffusion-based TTS methods with a clean and deterministic one, which
+              provides strong structural information of the target.
+              Specifically, we leverage the latent representation obtained from text input as our prior, and build a
+              fully tractable Schrodinger bridge between it and the ground-truth mel-spectrogram, leading to a
+              data-to-data process.
+              Moreover, the tractability and flexibility of our formulation allow us to empirically study the design
+              spaces such as noise schedules, as well as to develop stochastic and deterministic samplers.
+              Experimental results on the LJ-Speech dataset illustrate the effectiveness of our method in terms of both
+              synthesis quality and sampling efficiency, significantly outperforming our diffusion counterpart Grad-TTS
+              in 50-step/1000-step synthesis and strong fast TTS models in few-step scenarios.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr>
+  <section class="section">
+    <!-- Method. -->
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Method</h2>
+          <div class="content has-text-justified">
+            <p>(1) <b>Theoretically</b>, we propose a fully tractable Schrodinger Bridge between paired
+              data, tailored for the TTS task. We also propose bridge SDE/ODE for inference, and develop samplers with
+              exponential integrators.</p>
+            <p>(2) <b>Empirically</b>, we study the design spaces of noise schedules,
+              training objectives and sampling schemes.</p>
+          </div>
+          <div class="custom-image">
+            <img src="./static/images/Methodology.jpg">
+          </div>
+          <br><br>
+          <div class="custom-image">
+            <img src="./static/images/schedule.svg">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Quantitative Results</h2>
+          <div class="content has-text-justified">
+            <p class="title is-6">We conduct subjective tests on the open platform <i>Amazon Mechanical Turk</i>, with
+              20 samples and 25 subjects each model.</p>
+          </div>
+          <div class="custom-image">
+            <img src="./static/images/mos.png">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+
+
+
+
+
+
+
+
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column content">
+          <h2 class="title is-3">Generation Quality
+          </h2>
+        </div>
+      </div>
+      <div class="content has-text-justified">
+        <p class="title is-6">Bridge-TTS achieves subjective quality <font color="red">
+            close to the ground truth</font> with only <font color="red">50 steps</font>, significantly outperforming
+          previous diffusion-based
+          methods.</p>
+      </div>
+      </div>
+
+      <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div id="results-carousel" class="carousel results-carousel">
+      <div class="item item-LJ001-0009">
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Ground-Truth Recording</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">GTMel + Vocoder</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">VITS</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/GT-quality.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/GT-Mel-Vocoder.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/VITS.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-VP-1000 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-gmax-1000 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Grad-TTS-1000</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/vp-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/gmax-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/grad-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-VP-50 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-gmax-50 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Grad-TTS-50</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/vp-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/gmax-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/Grad-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">DiffSinger-71</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">ResGrad-50</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">FastSpeech 2</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/DifferSinger-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/ResGrad-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0009/FS2-quality.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+            <p class="text"><i>LJ001-0009: Printing, then, for our purpose, may be considered as the art of making books by means of
+                movable types.</i></p>
+            </div>
+          </div>
+        </div>
+        <div class="item item-LJ001-0014">
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Ground-Truth Recording</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">GTMel + Vocoder</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">VITS</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/GT-quality.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/GT-Mel-Vocoder.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/VITS.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-VP-1000 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-gmax-1000 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Grad-TTS-1000</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/vp-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/gmax-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/grad-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-VP-50 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-gmax-50 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Grad-TTS-50</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/vp-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/gmax-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/Grad-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">DiffSinger-71</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">ResGrad-50</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">FastSpeech 2</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/DifferSinger-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/ResGrad-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0014/FS2-quality.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+            <p class="text"><i>LJ001-0014: And it was a matter of course that in the Middle Ages, when the craftsmen took care that beautiful form should always be a part of their productions whatever they were</i></p>
+            </div>
+          </div>
+        </div>
+        <div class="item item-LJ001-0001">
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Ground-Truth Recording</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">GTMel + Vocoder</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">VITS</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/GT-quality.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/GT-Mel-Vocoder.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/VITS.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-VP-1000 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-gmax-1000 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Grad-TTS-1000</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/vp-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/gmax-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/grad-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-VP-50 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-gmax-50 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Grad-TTS-50</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/vp-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/gmax-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/Grad-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">DiffSinger-71</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">ResGrad-50</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">FastSpeech 2</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/DifferSinger-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/ResGrad-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0001/FS2-quality.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+            <p class="text"><i>LJ001-0001: Printing, in the only sense with which we are at present concerned, differs from most if not from all the arts and crafts represented in the Exhibition.</i></p>
+            </div>
+          </div>
+        </div>
+        <div class="item item-LJ001-0010">
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Ground-Truth Recording</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">GTMel + Vocoder</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">VITS</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/GT-quality.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/GT-Mel-Vocoder.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/VITS.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-VP-1000 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-gmax-1000 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Grad-TTS-1000</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/vp-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/gmax-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/grad-1000.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-VP-50 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Bridge-TTS-gmax-50 (Ours)</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">Grad-TTS-50</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/vp-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/gmax-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/Grad-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <p class="title is-6">DiffSinger-71</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">ResGrad-50</p>
+            </div>
+            <div class="column">
+              <p class="title is-6">FastSpeech 2</p>
+            </div>
+          </div>
+    
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/DifferSinger-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/ResGrad-50.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+            <div class="column">
+              <audio controls="controls">
+                <source src="./static/audios/LJ001-0010/FS2-quality.wav" autoplay />Your browser
+                does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          <div class="columns is-centered has-text-centered is-vcentered">
+            <div class="column">
+            <p class="text"><i>LJ001-0010: Now, as all books not primarily intended as picture-books consist principally of types composed to form letterpress.</i></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column content">
+          <h2 class="title is-3">Inference Speed
+          </h2>
+        </div>
+      </div>
+      <div class="content has-text-justified">
+        <p class="title is-6">Bridge-TTS outperforms previous methods with only <font color="red">2 steps</font>. </p>
+      </div>
+      </div>
+
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div id="results-carousel" class="carousel results-carousel">
+          <div class="item item-LJ001-0009-Speed">
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">Ground-Truth Recording</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">GTMel + Vocoder</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">FastSpeech 2</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/GT-quality.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/GT-Mel-Vocoder.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/FS2-quality.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">Bridge-TTS-gmax-4 (Ours)</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">Fast-GradTTS-4</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">Grad-TTS-4</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/gmax-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/FastGrad-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/Grad-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">ResGrad-4</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">DiffGAN-TTS-4</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">ProDiff-2</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/ResGrad-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/DiffGAN-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/Prodiff-2.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">Bridge-TTS-gmax-2 (Ours)</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">CoMoSpeech-2</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">CoMoSpeech-1</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/gmax-2.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/Como-2.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0009/Como-1.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+            <div class="columns is-centered has-text-centered">
+              <p><i>LJ001-0009: Printing, then, for our purpose, may be considered as the art of making books by means of
+                  movable types.</i></p>
+            </div>
+          </div>
+          <div class="item item-LJ001-0014-Speed">
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">Ground-Truth Recording</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">GTMel + Vocoder</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">FastSpeech 2</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/GT-quality.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/GT-Mel-Vocoder.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/FS2-quality.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">Bridge-TTS-gmax-4 (Ours)</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">Fast-GradTTS-4</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">Grad-TTS-4</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/gmax-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/FastGrad-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/Grad-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">ResGrad-4</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">DiffGAN-TTS-4</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">ProDiff-2</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/ResGrad-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/DiffGAN-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/Prodiff-2.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">Bridge-TTS-gmax-2 (Ours)</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">CoMoSpeech-2</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">CoMoSpeech-1</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/gmax-2.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/Como-2.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0014/Como-1.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+            <div class="columns is-centered has-text-centered">
+              <p><i>LJ001-0014: And it was a matter of course that in the Middle Ages, when the craftsmen took care that beautiful form should always be a part of their productions whatever they were.</i></p>
+            </div>
+          </div>
+          <div class="item item-LJ001-0010-Speed">
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">Ground-Truth Recording</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">GTMel + Vocoder</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">FastSpeech 2</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/GT-quality.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/GT-Mel-Vocoder.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/FS2-quality.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">Bridge-TTS-gmax-4 (Ours)</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">Fast-GradTTS-4</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">Grad-TTS-4</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/gmax-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/FastGrad-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/Grad-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">ResGrad-4</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">DiffGAN-TTS-4</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">ProDiff-2</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/ResGrad-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/DiffGAN-4.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/Prodiff-2.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <p class="title is-6">Bridge-TTS-gmax-2 (Ours)</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">CoMoSpeech-2</p>
+              </div>
+              <div class="column">
+                <p class="title is-6">CoMoSpeech-1</p>
+              </div>
+            </div>
+
+            <div class="columns is-centered has-text-centered is-vcentered">
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/gmax-2.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/Como-2.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+              <div class="column">
+                <audio controls="controls">
+                  <source src="./static/audios/LJ001-0010/Como-1.wav" autoplay />Your browser
+                  does not support the audio element.
+                </audio>
+              </div>
+            </div>
+            <div class="columns is-centered has-text-centered">
+              <p><i>LJ001-0010: Now, as all books not primarily intended as picture-books consist principally of types composed to form letterpress.</i></p>
+            </div>
+          </div>
+          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Related Links</h2>
+
+          <div class="content has-text-justified">
+            <p><a href="https://github.com/jik876/hifi-gan">HiFi-GAN</a> model is used as vocoder.</p>
+            <p>
+              There are a lot of excellent works that are related to Bridge-TTS:
+            </p>
+            <p>
+              <a href="https://github.com/huawei-noah/Speech-Backbones/tree/main/Grad-TTS">Grad-TTS</a>, 
+              <a href="https://github.com/MoonInTheRiver/DiffSinger">DiffSinger</a>,
+              <a href="https://comospeech.github.io/">CoMoSpeech</a>,
+              <a href="https://github.com/Rongjiehuang/ProDiff">ProDiff</a>.
+
+            </p>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+
+            <p>This website is constructed using the source code provided by <a
+                href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>, and we are grateful for their template.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
