@@ -138,6 +138,10 @@ body {
   pointer-events: none;
 }
 
+.slider-container {
+  pointer-events: none;
+}
+
 .hero-body {
   padding-bottom: 0;
 }
