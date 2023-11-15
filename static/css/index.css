@@ -126,11 +126,13 @@ body {
 }
 
 .slider-navigation-previous {
-  background: #9c27b0b5 center center no-repeat;
+  background: #9c27b01f center center no-repeat;
+  color: purple;
 }
 
 .slider-navigation-next {
-  background: #9c27b0b5 center center no-repeat;
+  background: #9c27b01f center center no-repeat;
+  color: purple;
 }
 
 .slider-pagination .slider-page {
