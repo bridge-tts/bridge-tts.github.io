@@ -125,6 +125,18 @@ body {
   font-size: 10;
 }
 
+.slider-navigation-previous {
+  background: #9c27b0b5 center center no-repeat;
+}
+
+.slider-navigation-next {
+  background: #9c27b0b5 center center no-repeat;
+}
+
+.slider-page {
+  background: #9c27b0b5;
+}
+
 .hero-body {
   padding-bottom: 0;
 }
